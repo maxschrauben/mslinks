@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="de">
+    <!-- Max!!! Schrauben Alle Links v1.0.0 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.typekit.net/zao4kul.css">
+    <title>Max!!! Schrauben / Alle Links</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "polymath", sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #0a1628 0%, #1a0b2e 50%, #16213e 100%);
+            position: relative;
+        }
+
+        p {
+            font-size: 14px;
+            color: rgb(109, 109, 109);
+            text-align: center;
+            margin-top: 13px;
+         }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
+        }
+
+        .profile-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .profile-tags {
+            font-size: 16px;
+            color: #a0a8c9;
+            letter-spacing: 1px;
+        }
+
+        .links-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .link-button {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px 30px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .link-button:nth-child(1) { animation-delay: 0.1s; }
+        .link-button:nth-child(2) { animation-delay: 0.2s; }
+        .link-button:nth-child(3) { animation-delay: 0.3s; }
+        .link-button:nth-child(4) { animation-delay: 0.4s; }
+        .link-button:nth-child(5) { animation-delay: 0.5s; }
+        .link-button:nth-child(6) { animation-delay: 0.6s; }
+        .link-button:nth-child(7) { animation-delay: 0.7s; }
+        .link-button:nth-child(8) { animation-delay: 0.8s; }
+        .link-button:nth-child(9) { animation-delay: 0.9s; }
+        .link-button:nth-child(10) { animation-delay: 1.0s; }
+        .link-button:nth-child(11) { animation-delay: 1.1s; }
+        .link-button:nth-child(12) { animation-delay: 1.2s; }
+        .link-button:nth-child(13) { animation-delay: 1.3s; }
+        .link-button:nth-child(14) { animation-delay: 1.4s; }
+        .link-button:nth-child(15) { animation-delay: 1.5s; }
+        .link-button:nth-child(16) { animation-delay: 1.6s; }
+        .link-button:nth-child(17) { animation-delay: 1.7s; }
+        .link-button:nth-child(18) { animation-delay: 1.8s; }
+        .link-button:nth-child(19) { animation-delay: 1.9s; }
+        .link-button:nth-child(20) { animation-delay: 2.0s; }
+        .link-button:nth-child(21) { animation-delay: 2.1s; }
+
+        .link-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .link-button:hover::before {
+            left: 100%;
+        }
+
+        .link-button:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .link-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-name {
+                font-size: 28px;
+            }
+            
+            .profile-tags {
+                font-size: 14px;
+            }
+
+            .link-button {
+                padding: 18px 25px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    
+    <div class="container">
+        <div class="profile-section">
+            <div class="profile-image">
+                <img src="ms-logo.jpg" alt="Profile">
+            </div>
+            <h1 class="profile-name">Max!!! Schrauben</h1>
+            <p class="profile-tags">Alle Links</p>
+        </div>
+
+        <div class="links-section">
+            <a href="https://www.youtube.com/@maxschrauben" class="link-button">
+                <img src="youtube-icon.png" class="link-icon">
+                <span>YouTube</span>
+            </a>
+            <a href="https://www.instagram.com/maxschrauben" class="link-button">
+                <img src="instagram-icon.png" class="link-icon">
+                <span>Instagram</span>
+            </a>
+            <a href="https://x.com/maxschrauben" class="link-button">
+                <img src="twitter-icon.png" class="link-icon">
+                <span>X</span>
+            </a>
+            <a href="https://www.tiktok.com/@max_451" class="link-button">
+                <img src="tiktok-icon.png" class="link-icon">
+                <span>TikTok</span>
+            </a>
+            <a href="https://www.facebook.com/max.schrauben" class="link-button">
+                <img src="facebook-icon.png" class="link-icon">
+                <span>Facebook Allgemein</span>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100067319673828" class="link-button">
+                <img src="facebook-icon.png" class="link-icon">
+                <span>Facebook Posts</span>
+            </a>
+            <a href="https://www.twitch.tv/maxschrauben" class="link-button">
+                <img src="twitch-icon.png" class="link-icon">
+                <span>Twitch</span>
+            </a>            
+            <a href="//maxschrauben.de" class="link-button">
+                <img src="website-icon.png" class="link-icon">
+                <span>Website</span>
+            </a>
+            <a href="https://www.youtube.com/@MaxMusicMsc" class="link-button">
+                <img src="youtube-icon.png" class="link-icon">
+                <span>YouTube Max!!! Music</span>
+            </a>
+            <a href="https://www.instagram.com/maxmusik1" class="link-button">
+                <img src="instagram-icon.png" class="link-icon">
+                <span>Instagram Max!!! Music</span>
+            </a>
+            <a href="https://www.tiktok.com/@maxmusicofficial" class="link-button">
+                <img src="tiktok-icon.png" class="link-icon">
+                <span>TikTok Max!!! Music</span>
+            </a>
+            <a href="https://www.youtube.com/channel/UCBcgECnCH0k94dXJfvgrQzg" class="link-button">
+                <img src="youtube-icon.png" class="link-icon">
+                <span>YouTube Max!!! Music Beats</span>
+            </a>
+            <a href="https://soundcloud.com/maxmusik1" class="link-button">
+                <img src="soundcloud-icon.png" class="link-icon">
+                <span>SoundCloud Max!!! Music</span>
+            </a>
+            <a href="//maxmsc.com" class="link-button">
+                <img src="website-icon.png" class="link-icon">
+                <span>Website Max!!! Music</span>
+            </a> 
+            <a href="https://www.youtube.com/channel/UCXSCk8ZD9KpfYMHeUkweiYQ" class="link-button">
+                <img src="youtube-icon.png" class="link-icon">
+                <span>YouTube MaxGaming</span>
+            </a>             
+            <a href="https://www.instagram.com/maxgamingg.yt" class="link-button">
+                <img src="instagram-icon.png" class="link-icon">
+                <span>Instagram MaxGaming</span>
+            </a>
+            <a href="https://x.com/MaxGYT123" class="link-button">
+                <img src="twitter-icon.png" class="link-icon">
+                <span>X MaxGaming</span>
+            </a>
+            <a href="https://www.tiktok.com/@mgderechte" class="link-button">
+                <img src="tiktok-icon.png" class="link-icon">
+                <span>TikTok MaxGaming</span>
+            </a>
+            <a href="https://www.twitch.tv/maxgamyt" class="link-button">
+                <img src="twitch-icon.png" class="link-icon">
+                <span>Twitch MaxGaming</span>
+            </a>
+            <a href="https://discord.com/invite/nEnDmqm2Hc" class="link-button">
+                <img src="discord-icon.svg" class="link-icon">
+                <span>Discord MaxGaming</span>
+            </a>
+            <a href="https://sptfy.com/MaxGaming" class="link-button">
+                <img src="spotify-icon.png" class="link-icon">
+                <span>Spotify MaxGaming</span>
+            </a>
+        </div>
+        <br>
+        <p>© 2025 MaxSchrauben - Alle Rechte vorbehalten</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.z = 50;
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particleCount = 150;
+        const positions = new Float32Array(particleCount * 3);
+        const velocities = [];
+
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 100;
+            positions[i + 1] = (Math.random() - 0.5) * 100;
+            positions[i + 2] = (Math.random() - 0.5) * 100;
+            
+            velocities.push({
+                x: (Math.random() - 0.5) * 0.02,
+                y: (Math.random() - 0.5) * 0.02,
+                z: (Math.random() - 0.5) * 0.02
+            });
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            color: 0x667eea,
+            size: 0.5,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particleSystem);
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const positions = particleSystem.geometry.attributes.position.array;
+
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                
+                positions[i3] += velocities[i].x;
+                positions[i3 + 1] += velocities[i].y;
+                positions[i3 + 2] += velocities[i].z;
+
+                if (Math.abs(positions[i3]) > 50) velocities[i].x *= -1;
+                if (Math.abs(positions[i3 + 1]) > 50) velocities[i].y *= -1;
+                if (Math.abs(positions[i3 + 2]) > 50) velocities[i].z *= -1;
+            }
+
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+            particleSystem.rotation.y += 0.0005;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
