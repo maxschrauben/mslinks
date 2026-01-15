@@ -1,4 +1,4 @@
-// © Max!!! Schrauben Alle Links v1.2.3
+// © Max!!! Schrauben Alle Links v1.2.4
 
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.180.0/three.module.js';
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
-<!-- © Max!!! Schrauben Alle Links v1.2.3-e1 -->
+<!-- © Max!!! Schrauben Alle Links v1.2.4 -->
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Audiowide&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/android-chrome-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body class="error-page">
@@ -17,20 +26,23 @@
 
     <div class="container">
         <div class="error-code">404</div>
-        <h1 class="error-title">Seite nicht gefunden</h1>
+        <h1 class="error-title">Seite nicht gefunden!</h1>
         <p class="error-message">
-            Ups! Die Seite, die du suchst, existiert nicht.<br>
-            Vielleicht wurde sie gelöscht oder die URL ist falsch.
+            Ups! Die Seite, die du suchst, existiert nicht (mehr).<br>
         </p>
         <div class="button-group">
             <a href="/" class="btn">
-                ZUR STARTSEITE
+                <img src="home-icon.png" class="link-icon" alt="Home Icon">
+                <span>ZUR STARTSEITE</span>
             </a>
             <a href="javascript:history.back()" class="btn">
-                ZURÜCK
+                <img src="back-icon.png" class="link-icon" alt="Back Icon">
+                <span>ZURÜCK</span>
             </a>
         </div>
     </div>
 
     <script type="module" src="/particles.js"></script>
 </body>
+
+</html>
