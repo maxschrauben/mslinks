@@ -1,4 +1,4 @@
-        /* © Max!!! Schrauben Alle Links v1.2.4 */
+        /* © Max!!! Schrauben Alle Links v1.2.5 */
 
         :root {
             --primary-color: #667eea;
@@ -228,8 +228,6 @@
             border-radius: 15px;
             padding: 2px;
             background: linear-gradient(145deg, transparent, transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
             mask-composite: exclude;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -245,7 +243,7 @@
         }
 
         .link-button:hover {
-            transform: translateY(-8px);
+            transform: scale(1.06);
             background: linear-gradient(145deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
             border-color: var(--hover-glow);
             box-shadow:
@@ -263,7 +261,7 @@
         }
 
         .link-button:active {
-            transform: translateY(-4px);
+            transform: scale(1.03);
             box-shadow:
                 0 8px 16px rgba(0, 0, 0, 0.8),
                 0 4px 8px rgba(0, 0, 0, 0.6),
@@ -467,7 +465,7 @@
         }
 
         .btn:hover {
-            transform: translateY(-5px);
+            transform: scale(1.06);
             background: linear-gradient(145deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
             border-color: var(--hover-glow);
             box-shadow:

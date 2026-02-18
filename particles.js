@@ -1,6 +1,6 @@
-// © Max!!! Schrauben Alle Links v1.2.4
+// © Max!!! Schrauben Alle Links v1.2.5
 
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.180.0/three.module.js';
+import * as THREE from 'https://content.maxschrauben.de/js/three/recent/three.module.js';
 
 const canvas = document.getElementById('particle-canvas');
 const scene = new THREE.Scene();
