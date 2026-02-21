@@ -1,4 +1,4 @@
-        /* © Max!!! Schrauben Alle Links v1.2.5 */
+        /* © Max!!! Schrauben Alle Links v1.2.5-r1 */
 
         :root {
             --primary-color: #667eea;
@@ -243,7 +243,7 @@
         }
 
         .link-button:hover {
-            transform: scale(1.06);
+            transform: scale(1.04);
             background: linear-gradient(145deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
             border-color: var(--hover-glow);
             box-shadow:
