@@ -1,4 +1,4 @@
-// © Max!!! Schrauben Alle Links v1.2.6
+// © Max!!! Schrauben Alle Links v1.2.7
 
 import * as THREE from 'https://content.maxschrauben.de/mslinks/js/three/v1.2/pkg2/three.module.js';
 
@@ -12,11 +12,10 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.z = 50;
 
 const particlesGeometry = new THREE.BufferGeometry();
-const particleCount = 200;
+const particleCount = 500;
 const positions = new Float32Array(particleCount * 3);
-const originalPositions = new Float32Array(particleCount * 3);
-const currentOffsets = new Float32Array(particleCount * 3);
-const offsetVelocities = new Float32Array(particleCount * 3);
+const ambientPositions = new Float32Array(particleCount * 3);
+const displayPositions = new Float32Array(particleCount * 3);
 const velocities = [];
 
 for (let i = 0; i < particleCount * 3; i += 3) {
@@ -24,9 +23,9 @@ for (let i = 0; i < particleCount * 3; i += 3) {
     const y = (Math.random() - 0.5) * 100;
     const z = (Math.random() - 0.5) * 100;
 
-    positions[i]     = originalPositions[i]     = x;
-    positions[i + 1] = originalPositions[i + 1] = y;
-    positions[i + 2] = originalPositions[i + 2] = z;
+    positions[i]     = ambientPositions[i]     = displayPositions[i]     = x;
+    positions[i + 1] = ambientPositions[i + 1] = displayPositions[i + 1] = y;
+    positions[i + 2] = ambientPositions[i + 2] = displayPositions[i + 2] = z;
 
     velocities.push({
         x: (Math.random() - 0.5) * 0.03,
@@ -39,7 +38,7 @@ particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 
 
 const particlesMaterial = new THREE.PointsMaterial({
     color: window.themeParticleColor ? new THREE.Color(window.themeParticleColor).getHex() : (window.themeIsLiquid ? 0xffffff : 0x667eea),
-    size: 0.8,
+    size: 0.5,
     transparent: true,
     opacity: 0.8,
     blending: THREE.AdditiveBlending,
@@ -54,16 +53,24 @@ scene.add(particleSystem);
 const mouse = new THREE.Vector2(9999, 9999);
 const mouse3D = new THREE.Vector3();
 const smoothMouse3D = new THREE.Vector3(9999, 9999, 0);
+let firstMove = true;
 
-const REPULSE_RADIUS   = 18;
-const REPULSE_STRENGTH = 2.2;
-const MOUSE_SMOOTH     = 0.08;
-const SPRING           = 0.045;
-const DAMPING          = 0.78;
+const HOLE_RADIUS   = 23;
+const MOUSE_SMOOTH  = 0.10;
+const LERP_SPEED    = 0.27;
 
 window.addEventListener('mousemove', (e) => {
     mouse.x =  (e.clientX / window.innerWidth)  * 2 - 1;
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+    if (firstMove) {
+        firstMove = false;
+        const v = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+        v.unproject(camera);
+        const d = v.sub(camera.position).normalize();
+        const dist = -camera.position.z / d.z;
+        smoothMouse3D.copy(camera.position).addScaledVector(d, dist);
+    }
 });
 
 window.addEventListener('mouseleave', () => {
@@ -89,47 +96,52 @@ function animate() {
 
     const pos = particleSystem.geometry.attributes.position.array;
     const rotY = particleSystem.rotation.y;
+    const cosR = Math.cos(rotY);
+    const sinR = Math.sin(rotY);
 
     for (let i = 0; i < particleCount; i++) {
         const i3 = i * 3;
 
-        originalPositions[i3]     += velocities[i].x;
-        originalPositions[i3 + 1] += velocities[i].y;
-        originalPositions[i3 + 2] += velocities[i].z;
+        ambientPositions[i3]     += velocities[i].x;
+        ambientPositions[i3 + 1] += velocities[i].y;
+        ambientPositions[i3 + 2] += velocities[i].z;
 
-        if (Math.abs(originalPositions[i3])     > 50) velocities[i].x *= -1;
-        if (Math.abs(originalPositions[i3 + 1]) > 50) velocities[i].y *= -1;
-        if (Math.abs(originalPositions[i3 + 2]) > 50) velocities[i].z *= -1;
+        if (Math.abs(ambientPositions[i3])     > 50) velocities[i].x *= -1;
+        if (Math.abs(ambientPositions[i3 + 1]) > 50) velocities[i].y *= -1;
+        if (Math.abs(ambientPositions[i3 + 2]) > 50) velocities[i].z *= -1;
 
-        const wx = originalPositions[i3] * Math.cos(rotY) + originalPositions[i3 + 2] * Math.sin(rotY);
-        const wy = originalPositions[i3 + 1];
+        const lx = ambientPositions[i3];
+        const ly = ambientPositions[i3 + 1];
+        const lz = ambientPositions[i3 + 2];
+
+        const wx = lx * cosR + lz * sinR;
+        const wy = ly;
 
         const dx = wx - smoothMouse3D.x;
         const dy = wy - smoothMouse3D.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        let forceX = 0;
-        let forceY = 0;
+        let targetX = lx;
+        let targetY = ly;
+        let targetZ = lz;
 
-        if (dist < REPULSE_RADIUS && dist > 0.001) {
-            const falloff = (Math.cos((dist / REPULSE_RADIUS) * Math.PI) + 1) * 0.5;
-            const strength = falloff * REPULSE_STRENGTH * REPULSE_RADIUS;
-            forceX = (dx / dist) * strength;
-            forceY = (dy / dist) * strength;
+        if (dist < HOLE_RADIUS && dist > 0.001) {
+            const pushAmount = HOLE_RADIUS - dist;
+            const nx = dx / dist;
+            const ny = dy / dist;
+
+            targetX += nx * pushAmount * cosR;
+            targetY += ny * pushAmount;
+            targetZ += nx * pushAmount * sinR;
         }
 
-        offsetVelocities[i3]     += (forceX - currentOffsets[i3])     * SPRING;
-        offsetVelocities[i3 + 1] += (forceY - currentOffsets[i3 + 1]) * SPRING;
+        displayPositions[i3]     += (targetX - displayPositions[i3])     * LERP_SPEED;
+        displayPositions[i3 + 1] += (targetY - displayPositions[i3 + 1]) * LERP_SPEED;
+        displayPositions[i3 + 2] += (targetZ - displayPositions[i3 + 2]) * LERP_SPEED;
 
-        offsetVelocities[i3]     *= DAMPING;
-        offsetVelocities[i3 + 1] *= DAMPING;
-
-        currentOffsets[i3]     += offsetVelocities[i3];
-        currentOffsets[i3 + 1] += offsetVelocities[i3 + 1];
-
-        pos[i3]     = originalPositions[i3]     + currentOffsets[i3];
-        pos[i3 + 1] = originalPositions[i3 + 1] + currentOffsets[i3 + 1];
-        pos[i3 + 2] = originalPositions[i3 + 2];
+        pos[i3]     = displayPositions[i3];
+        pos[i3 + 1] = displayPositions[i3 + 1];
+        pos[i3 + 2] = displayPositions[i3 + 2];
     }
 
     particleSystem.geometry.attributes.position.needsUpdate = true;

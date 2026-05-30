@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
-<!-- © Max!!! Schrauben Alle Links v1.2.6 -->
+<!-- © Max!!! Schrauben Alle Links v1.2.7 -->
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Seite nicht gefunden</title>
+    <title data-i18n="404-title">404 - Seite nicht gefunden</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Audiowide&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
@@ -25,22 +25,23 @@
 
     <div class="container">
         <div class="error-code">404</div>
-        <h1 class="error-title">Seite nicht gefunden!</h1>
-        <p class="error-message">
+        <h1 class="error-title" data-i18n="seite-nicht-gefunden">Seite nicht gefunden!</h1>
+        <p class="error-message" data-i18n="fehler-nachricht">
             Ups! Die Seite, die du suchst, existiert nicht (mehr).<br>
         </p>
         <div class="button-group">
             <a href="/" class="btn">
                 <img src="/home-icon.png" class="link-icon" alt="Home Icon">
-                <span>ZUR STARTSEITE</span>
+                <span data-i18n="zur-startseite">ZUR STARTSEITE</span>
             </a>
             <a href="javascript:history.back()" class="btn">
                 <img src="/back-icon.png" class="link-icon" alt="Back Icon">
-                <span>ZURÜCK</span>
+                <span data-i18n="zurueck">ZURÜCK</span>
             </a>
         </div>
     </div>
 
+    <script src="/lang.js"></script>
     <script type="module" src="/particles.js"></script>
 </body>
 
