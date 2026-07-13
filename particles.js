@@ -1,4 +1,4 @@
-// © Max!!! Schrauben Alle Links v1.2.7
+// © Max!!! Schrauben Alle Links v1.3.0
 
 import * as THREE from 'https://content.maxschrauben.de/mslinks/js/three/v1.2/pkg2/three.module.js';
 
@@ -23,7 +23,7 @@ for (let i = 0; i < particleCount * 3; i += 3) {
     const y = (Math.random() - 0.5) * 100;
     const z = (Math.random() - 0.5) * 100;
 
-    positions[i]     = ambientPositions[i]     = displayPositions[i]     = x;
+    positions[i] = ambientPositions[i] = displayPositions[i] = x;
     positions[i + 1] = ambientPositions[i + 1] = displayPositions[i + 1] = y;
     positions[i + 2] = ambientPositions[i + 2] = displayPositions[i + 2] = z;
 
@@ -55,12 +55,12 @@ const mouse3D = new THREE.Vector3();
 const smoothMouse3D = new THREE.Vector3(9999, 9999, 0);
 let firstMove = true;
 
-const HOLE_RADIUS   = 23;
-const MOUSE_SMOOTH  = 0.10;
-const LERP_SPEED    = 0.27;
+const HOLE_RADIUS = 23;
+const MOUSE_SMOOTH = 0.10;
+const LERP_SPEED = 0.27;
 
 window.addEventListener('mousemove', (e) => {
-    mouse.x =  (e.clientX / window.innerWidth)  * 2 - 1;
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
     if (firstMove) {
@@ -102,11 +102,11 @@ function animate() {
     for (let i = 0; i < particleCount; i++) {
         const i3 = i * 3;
 
-        ambientPositions[i3]     += velocities[i].x;
+        ambientPositions[i3] += velocities[i].x;
         ambientPositions[i3 + 1] += velocities[i].y;
         ambientPositions[i3 + 2] += velocities[i].z;
 
-        if (Math.abs(ambientPositions[i3])     > 50) velocities[i].x *= -1;
+        if (Math.abs(ambientPositions[i3]) > 50) velocities[i].x *= -1;
         if (Math.abs(ambientPositions[i3 + 1]) > 50) velocities[i].y *= -1;
         if (Math.abs(ambientPositions[i3 + 2]) > 50) velocities[i].z *= -1;
 
@@ -135,11 +135,11 @@ function animate() {
             targetZ += nx * pushAmount * sinR;
         }
 
-        displayPositions[i3]     += (targetX - displayPositions[i3])     * LERP_SPEED;
+        displayPositions[i3] += (targetX - displayPositions[i3]) * LERP_SPEED;
         displayPositions[i3 + 1] += (targetY - displayPositions[i3 + 1]) * LERP_SPEED;
         displayPositions[i3 + 2] += (targetZ - displayPositions[i3 + 2]) * LERP_SPEED;
 
-        pos[i3]     = displayPositions[i3];
+        pos[i3] = displayPositions[i3];
         pos[i3 + 1] = displayPositions[i3 + 1];
         pos[i3 + 2] = displayPositions[i3 + 2];
     }

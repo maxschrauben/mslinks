@@ -1,4 +1,4 @@
-        /* © Max!!! Schrauben Alle Links v1.2.7 */
+        /* © Max!!! Schrauben Alle Links v1.3.0 */
 
         :root {
             --primary-color: #667eea;
@@ -182,24 +182,26 @@
         }
 
         .link-button {
+            --mouse-x: 50%;
+            --mouse-y: 50%;
             position: relative;
             background: linear-gradient(145deg, var(--button-bg-light), var(--button-bg-dark));
             backdrop-filter: blur(10px);
             border: 2px solid var(--border-color);
-            border-radius: 15px;
+            border-radius: 50px;
             padding: 20px 30px;
             color: var(--text-light);
             text-decoration: none;
             font-size: 16px;
             font-weight: 700;
             letter-spacing: 2px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
             overflow: hidden;
-            animation: fadeInUp 0.8s ease-out backwards;
+            animation: softScaleIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
             cursor: pointer;
             box-shadow:
                 0 8px 16px var(--shadow-color),
@@ -209,33 +211,38 @@
                 inset 0 -4px 8px rgba(0, 0, 0, 0.5);
         }
 
+
         .link-button::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.4), transparent);
-            transition: left 0.5s ease;
+            background: radial-gradient(circle 120px at var(--mouse-x) var(--mouse-y),
+                    rgba(102, 126, 234, 0.35) 0%,
+                    rgba(118, 75, 162, 0.15) 40%,
+                    transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
             pointer-events: none;
         }
 
         .link-button::after {
             content: '';
             position: absolute;
-            inset: 0;
-            border-radius: 15px;
-            padding: 2px;
-            background: linear-gradient(145deg, transparent, transparent);
-            mask-composite: exclude;
+            inset: -2px;
+            border-radius: 50px;
+            background: linear-gradient(145deg, rgba(102, 126, 234, 0.6), rgba(118, 75, 162, 0.6));
+            z-index: -1;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
+            filter: blur(8px);
             pointer-events: none;
         }
 
         .link-button:hover::before {
-            left: 100%;
+            opacity: 1;
         }
 
         .link-button:hover::after {
@@ -243,25 +250,28 @@
         }
 
         .link-button:hover {
-            transform: scale(1.04);
-            background: linear-gradient(145deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            transform: scale(1.055);
+            background: linear-gradient(145deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
             border-color: var(--hover-glow);
             box-shadow:
-                0 15px 30px rgba(0, 0, 0, 0.8),
-                0 8px 16px rgba(0, 0, 0, 0.6),
-                0 0 30px var(--hover-glow),
-                0 0 60px var(--text-glow),
-                0 0 90px rgba(102, 126, 234, 0.5),
-                inset 0 3px 6px rgba(255, 255, 255, 0.2),
-                inset 0 -6px 12px rgba(0, 0, 0, 0.7),
-                inset 0 0 30px rgba(102, 126, 234, 0.3);
+                0 20px 40px rgba(0, 0, 0, 0.8),
+                0 10px 20px rgba(0, 0, 0, 0.6),
+                0 0 35px var(--hover-glow),
+                0 0 70px var(--text-glow),
+                0 0 100px rgba(102, 126, 234, 0.45),
+                0 0 140px rgba(102, 126, 234, 0.2),
+                inset 0 3px 6px rgba(255, 255, 255, 0.15),
+                inset 0 -6px 12px rgba(0, 0, 0, 0.6),
+                inset 0 0 30px rgba(102, 126, 234, 0.2);
             text-shadow:
-                0 0 10px var(--hover-glow),
-                0 0 20px var(--text-glow);
+                0 0 12px var(--hover-glow),
+                0 0 24px var(--text-glow),
+                0 0 40px rgba(102, 126, 234, 0.4);
         }
 
         .link-button:active {
-            transform: scale(1.03);
+            transform: scale(1.01);
+            transition-duration: 0.1s;
             box-shadow:
                 0 8px 16px rgba(0, 0, 0, 0.8),
                 0 4px 8px rgba(0, 0, 0, 0.6),
@@ -276,10 +286,48 @@
             object-fit: contain;
             filter: drop-shadow(0 0 5px var(--text-glow));
             pointer-events: none;
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+
+        .link-button:hover .link-icon {
+            filter: drop-shadow(0 0 8px var(--hover-glow)) drop-shadow(0 0 16px var(--text-glow)) brightness(1.3);
+            transform: scale(1.2);
         }
 
         .link-button span {
             pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), letter-spacing 0.4s ease;
+        }
+
+        .link-button:hover span {
+            transform: scale(1.08);
+            letter-spacing: 3px;
+        }
+
+        #hero-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        #hero-glow-inner {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(102, 126, 234, 0.14) 0%,
+                    rgba(102, 126, 234, 0.07) 30%,
+                    rgba(118, 75, 162, 0.03) 55%,
+                    transparent 100%);
+            transform: translate(-50%, -50%);
+            will-change: transform, width, height;
+            filter: blur(30px);
+            opacity: 0;
+            transition: opacity 0.6s ease;
         }
 
         @keyframes backgroundMove {
@@ -343,6 +391,18 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes softScaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
             }
         }
 
@@ -424,18 +484,20 @@
         }
 
         .btn {
+            --mouse-x: 50%;
+            --mouse-y: 50%;
             position: relative;
             background: linear-gradient(145deg, var(--button-bg-light), var(--button-bg-dark));
             backdrop-filter: blur(10px);
             border: 2px solid var(--border-color);
-            border-radius: 15px;
+            border-radius: 50px;
             padding: 18px 40px;
             color: var(--text-light);
             text-decoration: none;
             font-size: 16px;
             font-weight: 700;
             letter-spacing: 2px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -453,32 +515,75 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.4), transparent);
-            transition: left 0.5s ease;
+            background: radial-gradient(circle 120px at var(--mouse-x) var(--mouse-y),
+                    rgba(102, 126, 234, 0.35) 0%,
+                    rgba(118, 75, 162, 0.15) 40%,
+                    transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50px;
+            background: linear-gradient(145deg, rgba(102, 126, 234, 0.6), rgba(118, 75, 162, 0.6));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            filter: blur(8px);
+            pointer-events: none;
         }
 
         .btn:hover::before {
-            left: 100%;
+            opacity: 1;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+        }
+
+        .btn .link-icon {
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+
+        .btn:hover .link-icon {
+            filter: drop-shadow(0 0 8px var(--hover-glow)) drop-shadow(0 0 16px var(--text-glow)) brightness(1.3);
+            transform: scale(1.2);
+        }
+
+        .btn span {
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), letter-spacing 0.4s ease;
+        }
+
+        .btn:hover span {
+            transform: scale(1.08);
+            letter-spacing: 3px;
         }
 
         .btn:hover {
-            transform: scale(1.06);
-            background: linear-gradient(145deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            transform: scale(1.04);
+            background: linear-gradient(145deg, rgba(102, 126, 234, 0.25), rgba(118, 75, 162, 0.25));
             border-color: var(--hover-glow);
             box-shadow:
-                0 15px 30px rgba(0, 0, 0, 0.8),
-                0 8px 16px rgba(0, 0, 0, 0.6),
-                0 0 30px var(--hover-glow),
-                0 0 60px var(--text-glow),
-                0 0 90px rgba(102, 126, 234, 0.5),
-                inset 0 3px 6px rgba(255, 255, 255, 0.2),
-                inset 0 -6px 12px rgba(0, 0, 0, 0.7);
+                0 20px 40px rgba(0, 0, 0, 0.8),
+                0 10px 20px rgba(0, 0, 0, 0.6),
+                0 0 35px var(--hover-glow),
+                0 0 70px var(--text-glow),
+                0 0 100px rgba(102, 126, 234, 0.45),
+                0 0 140px rgba(102, 126, 234, 0.2),
+                inset 0 3px 6px rgba(255, 255, 255, 0.15),
+                inset 0 -6px 12px rgba(0, 0, 0, 0.6);
             text-shadow:
-                0 0 10px var(--hover-glow),
-                0 0 20px var(--text-glow);
+                0 0 12px var(--hover-glow),
+                0 0 24px var(--text-glow),
+                0 0 40px rgba(102, 126, 234, 0.4);
         }
 
         @keyframes glitchAnimation {
